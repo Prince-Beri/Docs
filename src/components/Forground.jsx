@@ -9,11 +9,11 @@ const Forground = () => {
   const [showCreateTodo, setShowCreateTodo] = useState(false);
 
   // child comonenet states.
-
+  const [todoTitle, setTodoTitle] = useState('');
   const [task, setTask] = useState('');
   const [tasks, setTasks] = useState([]);
   const [editedIndex, setEditedIndex] = useState(null); // Track the index of the task being edited
-  const [addAllTasksIntoTodo, setAddAllTasksIntoTodo] = useState([{todoTasks: []}]);
+  const [addAllTasksIntoTodo, setAddAllTasksIntoTodo] = useState([{title: '',todoTasks: []}]);
 
   const ref = useRef(null);
 
@@ -28,7 +28,9 @@ const Forground = () => {
     <section ref={ref} className='fixed select-none top-0 left-0 w-full h-screen sm:h-[100%] z-[3] flex flex-wrap gap-5 p-10'>
         {
             showCreateTodo ? 
-            <CreateTasks 
+            <CreateTasks
+                todoTitle={todoTitle}
+                setTodoTitle={setTodoTitle}
                 task={task}
                 setTask={setTask}
                 tasks={tasks}

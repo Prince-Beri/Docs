@@ -5,6 +5,8 @@ import { FaRegEdit } from "react-icons/fa";
 
 
 const CreateTask = ({
+  todoTitle,
+  setTodoTitle,
   task,
   setTask,
   tasks,
@@ -31,6 +33,9 @@ const CreateTask = ({
   const handleTaskInputChange = (e) =>{
     setTask(e.target.value);
   };
+  const handleTodoTitleChange = (e) => {
+    setTodoTitle(e.target.value);
+  }
 
   const addTaskIntoTodo = (e) => {
     e.preventDefault();
@@ -47,14 +52,23 @@ const CreateTask = ({
   };
 
   const handleCreateTodo = (index) => {
-
+    
     const updatedObject = [...addAllTasksIntoTodo];
-    updatedObject[index] = {...updatedObject[index], todoTasks: tasks};
+    updatedObject[index] = {...updatedObject[index], title: todoTitle, todoTasks: tasks};
     setAddAllTasksIntoTodo(updatedObject);
     console.log(updatedObject);
+    let localStorageObject = JSON.stringify(addAllTasksIntoTodo);
+    localStorage.setItem('todoObject', localStorageObject);
+    let memoryObject = JSON.parse(localStorage.getItem('todoObject'));
+    console.log(memoryObject);
     setTasks([]);
-    setShowCreateTodo(!showCreateTodo)
-  }
+    setTodoTitle('');
+    setShowCreateTodo(!showCreateTodo);
+    
+  };
+
+
+
     return (
       <section className='relative flex text-white w-full h-screen '>
         <div className='flex flex-col m-w-[50%] m-auto bg-zinc-900/90 md:w-1/3 md:h-3/4 w-[calc(100vw-40px)] h-[80vh] rounded-3xl'>
@@ -64,16 +78,25 @@ const CreateTask = ({
               <input 
                 className='text-black mx-2 rounded-md h-8 w-full p-2'
                 type='text'
+                name='title'
+                value={todoTitle}
+                placeholder='Title of Todo...'
+                onChange={handleTodoTitleChange}
+              />
+              <input
+                className='text-black mx-2 rounded-md h-8 w-full p-2'
+                type='text'
                 name='task'
+                placeholder='add tasks into TODO....'
                 value={task}
                 onChange={handleTaskInputChange}
-              ></input>
+               />
               <button 
-                className='w-8 h-8 mx-1 rounded-lg bg-zinc-600 flex justify-center items-center' 
+                className='w-7 h-7 p-2 mx-1 rounded-lg bg-zinc-600 flex justify-center items-center' 
                 type='submit'
                 disabled={(task.length !== 0 ? false : true) || (tasks.length >= 5)}
               >
-                <FaRegCheckCircle />
+                <FaRegCheckCircle size={'2rem'}/>
               </button>
               
             </div>
