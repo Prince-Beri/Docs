@@ -10,7 +10,11 @@ const CreateTask = ({
   tasks,
   setTasks,
   editedIndex,
-  setEditedIndex
+  setEditedIndex,
+  addAllTasksIntoTodo,
+  setAddAllTasksIntoTodo,
+  showCreateTodo,
+  setShowCreateTodo
 }) => {
 
 
@@ -24,7 +28,7 @@ const CreateTask = ({
     setEditedIndex(index); // Set the index of the task being edited
   };
 
-  const handleChange = (e) =>{
+  const handleTaskInputChange = (e) =>{
     setTask(e.target.value);
   };
 
@@ -42,6 +46,15 @@ const CreateTask = ({
     }
   };
 
+  const handleCreateTodo = (index) => {
+
+    const updatedObject = [...addAllTasksIntoTodo];
+    updatedObject[index] = {...updatedObject[index], todoTasks: tasks};
+    setAddAllTasksIntoTodo(updatedObject);
+    console.log(updatedObject);
+    setTasks([]);
+    setShowCreateTodo(!showCreateTodo)
+  }
     return (
       <section className='relative flex text-white w-full h-screen '>
         <div className='flex flex-col m-w-[50%] m-auto bg-zinc-900/90 md:w-1/3 md:h-3/4 w-[calc(100vw-40px)] h-[80vh] rounded-3xl'>
@@ -53,7 +66,7 @@ const CreateTask = ({
                 type='text'
                 name='task'
                 value={task}
-                onChange={handleChange}
+                onChange={handleTaskInputChange}
               ></input>
               <button 
                 className='w-8 h-8 mx-1 rounded-lg bg-zinc-600 flex justify-center items-center' 
@@ -72,7 +85,7 @@ const CreateTask = ({
                   key={idx}
                 >
                   <div className='flex justify-between w-full '>
-                    <div className={`text-[13px] p-1 rounded-sm bg-zinc-600 h-8 w-80 lg:w-96 laeding-none ${task.length < 10 ? '' : 'overflow-y-scroll'}`}>{task}</div>
+                    <div className={`text-[13px] py-1 px-2 rounded-sm bg-zinc-600 h-10 w-80 lg:w-96 laeding-none ${task.length < 10 ? '' : 'overflow-y-scroll'}`}>{task}</div>
                     <div className='flex justify-between'>
                       <div
                         className='w-6 h-6 rounded-lg cursor-pointer bg-zinc-600 ml-1 mr-1 flex justify-center items-center'
@@ -91,7 +104,9 @@ const CreateTask = ({
                 </div>
               ))
             }
-           {tasks.length > 0 && <div className=' bg-zinc-600 mx-auto rounded-lg p-2 cursor-pointer relative xl:top-8'>Grenrate Todo</div>}
+           {tasks.length > 0 && <div className=' bg-zinc-600 mx-auto rounded-lg p-2 cursor-pointer'
+            onClick={() => handleCreateTodo(addAllTasksIntoTodo.length)}
+           >Create Todo</div>}
           </form>
         </div>
       </section>

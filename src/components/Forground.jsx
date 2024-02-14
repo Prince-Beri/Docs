@@ -13,69 +13,16 @@ const Forground = () => {
   const [task, setTask] = useState('');
   const [tasks, setTasks] = useState([]);
   const [editedIndex, setEditedIndex] = useState(null); // Track the index of the task being edited
-  
-  // parent comonent states
-
-    const storeTaskIntoTodo = () => {
-
-    };
+  const [addAllTasksIntoTodo, setAddAllTasksIntoTodo] = useState([{todoTasks: []}]);
 
   const ref = useRef(null);
-  const data = [
-    {
-        desc: 'This is discreption of note1....',
-        filesize: '.9mb',
-        closeBtn: false,
-        tag: {
-            isOpen: true,
-            tagTitle: 'Download Now',
-            tagColor: 'bg-green-600'
-        }
 
-    },{
-        desc: 'This is discreption of note2....',
-        filesize: '2.3mb',
-        closeBtn: true,
-        tag: {
-            isOpen: true,
-            tagTitle: 'Read Me',
-            tagColor: 'bg-sky-600'
-        }
-
-    },{
-        desc: 'This is discreption of note3....',
-        filesize: '1.9mb',
-        closeBtn: false,
-        tag: {
-            isOpen: true,
-            tagTitle: 'Download Now...',
-            tagColor: 'bg-amber-600'
-        }
-
-    },{
-        desc: 'This is discreption of note4....',
-        filesize: '2.7mb',
-        closeBtn: true,
-        tag: {
-            isOpen: true,
-            tagTitle: 'Reminder',
-            tagColor: 'bg-blue-600'
-        }
-
-    },
-    {
-        desc: 'This is discreption of note4....',
-        filesize: '2.7mb',
-        closeBtn: true,
-        tag: {
-            isOpen: false,
-            tagTitle: 'Reminder',
-            tagColor: ''
-        }
-
-    }
-    
-  ]
+  const handleUpdatedTasks = (updatedStoredtasks, idx) => {
+    const updatedStoredTasksObj = [...addAllTasksIntoTodo];
+    updatedStoredTasksObj[idx].todoTasks = updatedStoredtasks;
+    setAddAllTasksIntoTodo(updatedStoredTasksObj);
+  }
+  
 
   return (
     <section ref={ref} className='fixed select-none top-0 left-0 w-full h-screen sm:h-[100%] z-[3] flex flex-wrap gap-5 p-10'>
@@ -88,9 +35,19 @@ const Forground = () => {
                 setTasks={setTasks}
                 editedIndex={editedIndex}
                 setEditedIndex={setEditedIndex}
+                addAllTasksIntoTodo={addAllTasksIntoTodo}
+                setAddAllTasksIntoTodo={setAddAllTasksIntoTodo}
+                showCreateTodo={showCreateTodo}
+                setShowCreateTodo={setShowCreateTodo}
+                
             /> :
-            data.map((item, idx) => (
-                <Card data={ item } key={idx} reference={ref}/>
+            addAllTasksIntoTodo.map((card, idx) => (
+                <Card 
+                    card={ card } 
+                    key={idx} 
+                    reference={ref}
+                    
+                />
             ))   
         }
         {
