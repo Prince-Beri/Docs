@@ -13,19 +13,13 @@ const Forground = () => {
   const [task, setTask] = useState('');
   const [tasks, setTasks] = useState([]);
   const [editedIndex, setEditedIndex] = useState(null); // Track the index of the task being edited
-  const [addAllTasksIntoTodo, setAddAllTasksIntoTodo] = useState([{title: '',todoTasks: []}]);
+  const [addAllTasksIntoTodo, setAddAllTasksIntoTodo] = useState([{title: 'title',todoTasks: ['this is your example task....']}]);
 
   const ref = useRef(null);
 
-  const handleUpdatedTasks = (updatedStoredtasks, idx) => {
-    const updatedStoredTasksObj = [...addAllTasksIntoTodo];
-    updatedStoredTasksObj[idx].todoTasks = updatedStoredtasks;
-    setAddAllTasksIntoTodo(updatedStoredTasksObj);
-  }
-  
 
   return (
-    <section ref={ref} className='fixed select-none top-0 left-0 w-full h-screen sm:h-[100%] z-[3] flex flex-wrap gap-5 p-10'>
+    <section ref={ref} className='fixed top-0 left-0 w-full h-screen sm:h-[100%] z-[3] flex flex-wrap gap-5 p-10'>
         {
             showCreateTodo ? 
             <CreateTasks
@@ -43,16 +37,24 @@ const Forground = () => {
                 setShowCreateTodo={setShowCreateTodo}
                 
             /> :
+            // if tasks object length > 1 means we added tasks into tasks object. and we want to render the tasks from tasks object.
+            addAllTasksIntoTodo.length > 1 ?
+            
             addAllTasksIntoTodo.map((card, idx) => (
+                // skipped the 0th idx because of empty object.
+                idx !== 0 &&
                 <Card 
                     card={ card } 
-                    key={idx} 
-                    reference={ref}
+                    key={ idx } 
+                    reference={ ref }
                     
                 />
-            ))   
+            )) : <div className='mx-auto mt-20 text-zinc-300'>There is no tasks so add some tasks from '+' button</div> 
         }
         {
+            /* 
+                Add task and close Genrate button.
+            */
             <div className='absolute cursor-pointer w-10 h-10 bg-zinc-900 rounded-xl flex justify-center items-center right-4 top-2'>
                 <div className='text-white'
                     onClick={() => setShowCreateTodo(!showCreateTodo)}
@@ -66,4 +68,4 @@ const Forground = () => {
   )
 }
 
-export default Forground
+export default Forground;

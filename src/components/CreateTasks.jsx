@@ -56,11 +56,11 @@ const CreateTask = ({
     const updatedObject = [...addAllTasksIntoTodo];
     updatedObject[index] = {...updatedObject[index], title: todoTitle, todoTasks: tasks};
     setAddAllTasksIntoTodo(updatedObject);
-    console.log(updatedObject);
-    let localStorageObject = JSON.stringify(addAllTasksIntoTodo);
+    console.log('updatedObject',updatedObject);
+    let localStorageObject = JSON.stringify(updatedObject);
     localStorage.setItem('todoObject', localStorageObject);
     let memoryObject = JSON.parse(localStorage.getItem('todoObject'));
-    console.log(memoryObject);
+    console.log('memoryObject',memoryObject);
     setTasks([]);
     setTodoTitle('');
     setShowCreateTodo(!showCreateTodo);
