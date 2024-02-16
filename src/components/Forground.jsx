@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { CiSquarePlus } from "react-icons/ci";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import Card from './Card';
 import CreateTasks from './CreateTasks';
 
 const Forground = () => {
-
+  // handling what to show createTodo or Todo Lists.
   const [showCreateTodo, setShowCreateTodo] = useState(false);
 
   // child comonenet states.
@@ -15,8 +15,21 @@ const Forground = () => {
   const [editedIndex, setEditedIndex] = useState(null); // Track the index of the task being edited
   const [addAllTasksIntoTodo, setAddAllTasksIntoTodo] = useState([{title: 'title',todoTasks: ['this is your example task....']}]);
 
+  // todo card handling.
+  const [todoDeletedIdx, setTodoDeletedIdx] = useState(null);
+  
+
+  // reference to Card Component so we can't go outside from Forgound Component.
   const ref = useRef(null);
 
+  // get Data from localStorage.
+  useEffect(() => {
+    const storedTodoObject = localStorage.getItem('todoObject');
+    if(storedTodoObject){
+        setAddAllTasksIntoTodo(JSON.parse(storedTodoObject));
+    }
+
+  },[])
 
   return (
     <section ref={ref} className='fixed top-0 left-0 w-full h-screen sm:h-[100%] z-[3] flex flex-wrap gap-5 p-10'>
@@ -46,8 +59,10 @@ const Forground = () => {
                 <Card 
                     card={ card } 
                     key={ idx } 
+                    index={ idx }
                     reference={ ref }
-                    
+                    todoDeletedIdx 
+                    setTodoDeletedIdx
                 />
             )) : <div className='mx-auto mt-20 text-zinc-300'>There is no tasks so add some tasks from '+' button</div> 
         }
@@ -59,7 +74,7 @@ const Forground = () => {
                 <div className='text-white'
                     onClick={() => setShowCreateTodo(!showCreateTodo)}
                 >
-                    {showCreateTodo ? <IoCloseCircleOutline size={'1.7rem'} /> : <CiSquarePlus size={'1.8rem'}/>}
+                    {showCreateTodo ? <IoCloseCircleOutline title='Close'size={'1.7rem'} /> : <CiSquarePlus  title='Create Todo' size={'1.8rem'}/>}
                 </div>
             </div>
         }

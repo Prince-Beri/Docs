@@ -6,7 +6,6 @@ const App = () => {
     <section className='relative w-full h-screen bg-zinc-800'>
       <Background />
       <Forground />
-      
     </section>
   )
 }

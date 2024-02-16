@@ -81,6 +81,7 @@ const CreateTask = ({
                 name='title'
                 value={todoTitle}
                 placeholder='Title of Todo...'
+                title='Title of Todo...'
                 onChange={handleTodoTitleChange}
               />
               <input
@@ -88,12 +89,14 @@ const CreateTask = ({
                 type='text'
                 name='task'
                 placeholder='add tasks into TODO....'
+                title='add tasks into TODO....'
                 value={task}
                 onChange={handleTaskInputChange}
                />
               <button 
                 className='w-7 h-7 p-2 mx-1 rounded-lg bg-zinc-600 flex justify-center items-center' 
                 type='submit'
+                title='Add task into Todo'
                 disabled={(task.length !== 0 ? false : true) || (tasks.length >= 5)}
               >
                 <FaRegCheckCircle size={'2rem'}/>
@@ -108,7 +111,7 @@ const CreateTask = ({
                   key={idx}
                 >
                   <div className='flex justify-between w-full '>
-                    <div className={`text-[13px] py-1 px-2 rounded-sm bg-zinc-600 h-10 w-80 lg:w-96 laeding-none ${task.length < 10 ? '' : 'overflow-y-scroll'}`}>{task}</div>
+                    <div className={`${task.length > 15 ? 'text-[13px] py-1 px-2 rounded-sm bg-zinc-600 h-10 w-86 lg:w-96 laeding-none overflow-y-auto' : 'text-[13px] py-1 px-2 rounded-sm bg-zinc-600 h-10 w-80 lg:w-96 laeding-none'}`}>{task}</div>
                     <div className='flex justify-between'>
                       <div
                         className='w-6 h-6 rounded-lg cursor-pointer bg-zinc-600 ml-1 mr-1 flex justify-center items-center'
@@ -127,7 +130,7 @@ const CreateTask = ({
                 </div>
               ))
             }
-           {tasks.length > 0 && <div className=' bg-zinc-600 mx-auto rounded-lg p-2 cursor-pointer'
+           {tasks.length > 0 && <div className=' bg-zinc-600 mx-auto rounded-lg p-2 cursor-pointer' title='Create Todo'
             onClick={() => handleCreateTodo(addAllTasksIntoTodo.length)}
            >Create Todo</div>}
           </form>
